@@ -115,7 +115,7 @@ hr {
     top: 0;
     left: 0;
     content: '★★★★★';
-    color: lightgray;
+    color: hsl(0, 0%, 65%);
 }
 .stars-container:after {
     position: absolute;

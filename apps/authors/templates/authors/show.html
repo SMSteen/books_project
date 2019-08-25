@@ -48,15 +48,16 @@
                             <a href="/books/{{book.id}}">{{book.title}}</a>
                         </td>
                         <td>
-                            {% if book.users_who_like.all|length < 1 %}
-                            None
-                            {% elif book.users_who_like.all|length == 1 %}
-                            {{book.users_who_like.all | length}} person
-                            {% else %}
-                            {{book.users_who_like.all | length}} people
-                            {% endif %}
+                            <ul>
+                                {% for user in book.users_who_like.all %}
+                                <li>{{user.first_name}} {{user.last_name}}</li>
+                                {% endfor %}
+                            </ul>
                         </td>
-                        <td>Not yet Rated</td>
+                        <td>
+                            {% load custom_tags %}
+                            <span class="stars-container stars-{{book|avg_ratings}}">★★★★★</span>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
