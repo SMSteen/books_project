@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
+    <title>Book Details</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h2>{{book.title}}
+                {% load custom_tags %}
+                <span class="stars-container stars-{{book|avg_ratings}}">★★★★★</span>
+            </h2>
+            <p class="tagline">added by {{book.uploaded_by_id.first_name}}
+                {{book.uploaded_by_id.last_name | slice:":1"}}.
+            </p>
+            {% if book.uploaded_by_id.id == request.session.user_id %}
+            <p class="actions">
+                <a class="button edit" href="/books/{{book.id}}/edit">Edit Book Details</a>
+                <a class="button delete" href="/books/{{book.id}}/delete">Delete Book</a>
+            </p>
+            {% endif %}
+
+
+
+            <div class="grid-container">
+                <div class="book-grid-container">
+                    <p>Author:</p>
+                    <p>
+                        <a href="/authors/{{book.author.id}}">{{book.author.first_name}} {{book.author.last_name}}</a>
+                    </p>
+                    <p>Description:</p>
+                    <p>{{book.description}}</p>
+                    <p>Favorited by:</p>
+
+                    <p>
+                        {% if book.users_who_like.all|length < 1 %}
+                        None
+                        {% elif book.users_who_like.all|length == 1 %}
+                        {{book.users_who_like.all | length}} person
+                        {% else %}
+                        {{book.users_who_like.all | length}} people
+                        {% endif %}
+
+
+                        {% if book.id in likes %}
+                        <a class="like-status" href="/books/{{book.id}}/unlike">Remove from Favorites</a>
+                        {% else %}
+                        <a class="like-status" href="/books/{{book.id}}/like">Add to Favorites</a>
+                        {% endif %}
+                    </p>
+
+                    <p>Reviews:</p>
+                    <div>
+                        <div class="book-reviews">
+                            {% for review in book.reviews.all %}
+                            <div class="review-grid-container">
+                                <p>Rating:</p>
+                                {% if review.rating > 1 %}
+                                <p>{{review.rating}} stars</p>
+                                {% else %}
+                                <p>{{review.rating}} star</p>
+                                {% endif %}
+
+                                <p>{{review.reviewer.first_name}} says:</p>
+                                <p>{{review.review}}</p>
+                                <p>Posted: </p>
+                                <p>{{review.created_at|date:"F j, Y"}}</p>
+                            </div>
+                            <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <form action='/reviews/create' method='post'>
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Add a Review</legend>
+                        <input type="hidden" name="book_id" value="{{book.id}}">
+                        <div>
+                            <label for="review">Review</label>
+                            {% if messages %}
+                            {% for msg in messages %}
+                            {% if msg.extra_tags == 'no_review' or msg.extra_tags == 'bad_review' %}
+                            <p class="error">{{msg}}</p>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <textarea name="review" cols="30" rows="5"></textarea>
+                        </div>
+                        <div>
+                            <label for="rating">Rating</label>
+                            {% if messages %}
+                            {% for msg in messages %}
+                            {% if msg.extra_tags == 'bad_rating' %}
+                            <p class="error">{{msg}}</p>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <select name="rating">
+                                <option value="none" disabled selected>-select a rating-</option>
+                                <option value="5">5 stars</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star</option>
+                            </select>
+                        </div>
+                        <button>Post Review</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

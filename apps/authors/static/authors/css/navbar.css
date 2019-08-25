@@ -1,0 +1,21 @@
+nav a {
+    text-decoration: none;
+    font-weight: bold;
+}
+nav ul {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+.nav-item {
+    display: inline-block;
+    list-style-type: none;
+    padding-right: 15px;
+    vertical-align: bottom;
+}
+nav li:nth-of-type(5) {
+    float: right;
+}
+.active {
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}

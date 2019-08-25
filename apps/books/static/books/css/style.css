@@ -1,0 +1,160 @@
+@import url('navbar.css');
+@import url('forms.css');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    width: 90%;
+    padding: 25px;
+}
+.container {
+    padding: 0 15px;
+}
+
+h2 {
+    font-size: 1.4em;
+    color: hsl(226, 100%, 15%);
+    margin-top: 15px;
+}
+.tagline {
+    font-size: 0.9em;
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* book list page layout */
+section {
+    display: inline-block;
+    width: 35%;
+    margin: 20px 50px;
+    vertical-align: top;
+}
+
+.book p {
+    margin: 5px 0;
+}
+.book h3 {
+    margin-top: 5px;
+}
+
+/* book details page layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: 55% 40%;
+    grid-gap: 25px;
+    padding: 10px 0;
+}
+.book-grid-container {
+    display: grid;
+    grid-template-columns: 15% 75%;
+    grid-gap: 10px;
+    padding: 10px 0;
+}
+.review-grid-container {
+    display: grid;
+    grid-template-columns: 25% 65%;
+    grid-gap: 10px;
+    padding: 10px 0;
+}
+hr {
+    margin: 10px 0;
+    border-top: 1.5px dotted hsl(226, 100%, 85%);
+}
+.book-reviews {
+    padding: 0 10px 10px 10px;
+    border: 1px dotted hsl(226, 100%, 15%);
+    box-shadow: 1px 2px 3px hsl(226, 100%, 15%);
+}
+
+.like-status {
+    display: block;
+}
+
+/* format buttons in grid */
+.actions {
+    margin: 10px 0;
+}
+.button {
+    display: inline-block;
+    width: fit-content;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+}
+.edit {
+    background-color: hsl(226, 100%, 90%);
+    color: hsl(226, 100%, 15%);
+    border: 1px solid hsl(226, 100%, 15%);
+}
+.delete {
+    margin-left: 15px;
+    background-color: hsl(15, 100%, 90%);
+    color: hsl(15, 100%, 40%);
+    border: 1px solid hsl(15, 100%, 40%);
+}
+.cancel {
+    margin-left: 15px;
+    background-color: hsl(0, 0%, 90%);
+    color: hsl(0, 0%, 40%);
+    border: 1px solid hsl(0, 0%, 40%);
+}
+/* styling for rating stars */
+.stars-container {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    font-size: 25px;
+}
+.stars-container:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '★★★★★';
+    color: lightgray;
+}
+.stars-container:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '★★★★★';
+    color: orange;
+    overflow: hidden;
+}
+.stars-0:after {
+    width: 0%;
+}
+.stars-10:after {
+    width: 10%;
+}
+.stars-20:after {
+    width: 20%;
+}
+.stars-30:after {
+    width: 30%;
+}
+.stars-40:after {
+    width: 40%;
+}
+.stars-50:after {
+    width: 50%;
+}
+.stars-60:after {
+    width: 60%;
+}
+.stars-70:after {
+    width: 70%;
+}
+.stars-80:after {
+    width: 80%;
+}
+.stars-90:after {
+    width: 90%;
+}
+.stars-100:after {
+    width: 100%;
+}

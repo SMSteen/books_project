@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Favorite Books</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <form action='/books/create' method='post'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Add a Book</legend>
+                <div>
+                    <label for="title">Title:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_title' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='title'>
+                </div>
+                <div>
+                    <label for="author">Author:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_author' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <select name="author">
+                        <option value="none" disabled selected>-select an author-</option>
+                        {% for author in authors %}
+                        <option value="{{author.id}}">{{author.first_name}} {{author.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <a href="/authors/new">Don't see the author? Add one!</a>
+                </div>
+                <div>
+                    <label for="Description">Description</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'no_desc' or msg.extra_tags == 'bad_desc' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <textarea name="description" cols="30" rows="5"></textarea>
+                </div>
+                <button>Add</button>
+            </fieldset>
+        </form>
+        <section>
+            <h2>All Books</h2>
+            <div class="book-list">
+                {% for book in books %}
+                <div class="book">
+                    <h3><a href="/books/{{book.id}}">{{book.title}}</a></h3>
+                    <p>added by {{book.uploaded_by_id.first_name}} {{book.uploaded_by_id.last_name | slice:":1"}}.</p>
+                    <p>
+                        {% load custom_tags %}
+                        <span class="stars-container stars-{{book|avg_ratings}}">★★★★★</span>
+                    </p>
+                    {% if book.id in likes %}
+                    <p class="tagline">this is one of your favorites</p>
+                    {% else %}
+                    <p><a href="/books/{{book.id}}/like">Add to Favorites</a></p>
+                    {% endif %}
+                </div>
+                <hr>
+                {% endfor %}
+
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

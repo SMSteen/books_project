@@ -1,0 +1,38 @@
+@import url('navbar.css');
+@import url('forms.css');
+@import url('tables.css');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    width: 90%;
+    padding: 25px;
+}
+.container {
+    padding: 0 15px;
+}
+.tagline {
+    font-size: 0.9em;
+    font-weight: normal;
+    font-style: italic;
+}
+h2 {
+    font-size: 1.4em;
+    color: hsl(226, 100%, 15%);
+    margin-top: 15px;
+}
+h4 {
+    color: hsl(226, 100%, 15%);
+    margin-top: 15px;
+}
+.cancel {
+    margin-left: 15px;
+    background-color: hsl(0, 0%, 90%);
+    color: hsl(0, 0%, 40%);
+    border: 1px solid hsl(0, 0%, 40%);
+}
+li {
+    list-style-type: none;
+}

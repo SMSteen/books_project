@@ -1,0 +1,89 @@
+@import url('navbar.css');
+@import url('forms.css');
+@import url('buttons.css');
+@import url('tables.css');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    width: 90%;
+    padding: 25px;
+}
+.container {
+    padding: 0 15px;
+}
+
+h2 {
+    font-size: 1.4em;
+    color: hsl(226, 100%, 15%);
+    margin-top: 15px;
+}
+.tagline {
+    font-size: 0.9em;
+    font-weight: normal;
+    font-style: italic;
+}
+.user-grid-container {
+    display: grid;
+    grid-template-columns: 10% 75%;
+    grid-gap: 10px;
+    padding: 10px 0;
+}
+
+/* styling for rating stars */
+.stars-container {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    font-size: 25px;
+}
+.stars-container:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '★★★★★';
+    color: lightgray;
+}
+.stars-container:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '★★★★★';
+    color: orange;
+    overflow: hidden;
+}
+.stars-0:after {
+    width: 0%;
+}
+.stars-10:after {
+    width: 10%;
+}
+.stars-20:after {
+    width: 20%;
+}
+.stars-30:after {
+    width: 30%;
+}
+.stars-40:after {
+    width: 40%;
+}
+.stars-50:after {
+    width: 50%;
+}
+.stars-60:after {
+    width: 60%;
+}
+.stars-70:after {
+    width: 70%;
+}
+.stars-80:after {
+    width: 80%;
+}
+.stars-90:after {
+    width: 90%;
+}
+.stars-100:after {
+    width: 100%;
+}

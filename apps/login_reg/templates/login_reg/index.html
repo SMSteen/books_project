@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+    <title>Login or Register</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the Book Club!</h1>
+        {% if messages %}
+        {% for msg in messages %}
+        {% if msg.extra_tags == 'not_in_session' %}
+        <p class="error">{{msg}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <form action='/register' method='post'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Register</legend>
+                <div>
+                    <label for="first_name">First Name</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_first' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='first_name'>
+                </div>
+                <div>
+                    <label for="last_name">Last Name</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_last' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='last_name'>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_email' or msg.extra_tags == 'dup_email' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='email'>
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_pw' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='password' name='password'>
+                </div>
+                <div>
+                    <label for="pwconf">Confirm PW</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_pwconf' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='password' name='pwconf'>
+                </div>
+                <button>Register</button>
+            </fieldset>
+        </form>
+
+        <form action='/login' method='post'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login</legend>
+                {% if messages %}
+                {% for msg in messages %}
+                {% if msg.extra_tags == 'bad_login' %}
+                <p class="error">{{msg}}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                <label for="email">Email</label>
+                <input type='text' name='email'>
+
+                <label for="password">Password</label>
+                <input type='password' name='password'>
+
+                <button>Log In</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>

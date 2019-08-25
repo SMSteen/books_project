@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'authors/css/style.css' %}">
+    <title>Authors</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h2>All Authors</h2>
+            <a href="/authors/new">Missing an author? Add one!</a>
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Notes</th>
+                    <th>Books</th>
+                </thead>
+                <tbody>
+                    {% for author in authors %}
+                    <tr>
+                        <td>
+                            <a href="/authors/{{author.id}}">{{author.first_name}} {{author.last_name}}</a>
+                        </td>
+                        <td>{{author.notes}}</td>
+                        <td>
+                            <ul>
+                                {% for book in author.books.all %}
+                                <li>
+                                    <a href="/books/{{book.id}}">{{book.title}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

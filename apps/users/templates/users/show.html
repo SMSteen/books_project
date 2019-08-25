@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
+    <title>My Profile</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <div class="user-grid-container">
+                <p>First Name:</p>
+                <p>{{user.first_name}}</p>
+                <p>Last Name</p>
+                <p>{{user.last_name}}</p>
+                <p>Email:</p>
+                <p>{{user.email}}</p>
+                <p>Member since:</p>
+                <p>{{user.created_at|date:"F j, Y"}}</p>
+            </div>
+            <p>
+                <a class="button edit" href="/users/{{user.id}}/edit">Edit My Details</a>
+            </p>
+            <h2>My Books</h2>
+            <table class="book-table">
+                <thead>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Other Users Who Favorited</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {% for book in user.uploaded_books.all %}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>
+                            <a href="/authors/{{book.author.id}}">{{book.author.first_name}}
+                                {{book.author.last_name}}</a>
+                        </td>
+                        <td>
+                            <ul>
+                                {% for user in book.users_who_like.all %}
+                                {% if user.id != request.session.user_id %}
+                                <li>{{user.first_name}} {{user.last_name}}</li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="button view" href="/books/{{book.id}}">View</a>
+                            <a class="button edit" href="/books/{{book.id}}/edit">Edit</a>
+                            <a class="button delete" href="/books/{{book.id}}/delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>My Favorites</h2>
+            <table class="book-table">
+                <thead>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>My Rating</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {% for book in user.liked_books.all %}
+                    {% if book.id not in users_books_ids %}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>
+                            <a href="/authors/{{book.author.id}}">{{book.author.first_name}}
+                                {{book.author.last_name}}</a>
+                        </td>
+                        <td>
+                            {% if book.id in users_reviews_id %}
+                            {% for review in reviewed_books %}
+                            {% if review.book.id == book.id %}
+                            {% load custom_tags %}
+                            <span class="stars-container stars-{{review.rating}}">★★★★★</span>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            not yet rated
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="button view" href="/books/{{book.id}}">View</a>
+                            <a class="button edit" href="/books/{{book.id}}">Add a Review</a>
+                            <a class="button delete" href="/books/{{book.id}}/unlike">Remove from Favorites</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

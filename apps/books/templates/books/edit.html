@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
+    <title>Edit Book</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <form action='/books/{{book.id}}/update' method='post'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Edit Book</legend>
+                <div>
+                    <label for="title">Title:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_title' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='title' value="{{book.title}}">
+                </div>
+                <div>
+                    <label for="author">Author:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_author' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <select name="author">
+                        {% for author in authors %}
+                        {% if author.id == book.author.id %}
+                        <option value="{{book.author.id}}" selected>{{book.author.first_name}}
+                            {{book.author.last_name}}</option>
+                        {% else %}
+                        <option value="{{author.id}}">{{author.first_name}} {{author.last_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <a href="/authors/new">Don't see the author? Add one!</a>
+                </div>
+                <div>
+                    <label for="Description">Description</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'no_desc' or msg.extra_tags == 'bad_desc' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <textarea name="description" cols="30" rows="5">{{book.description}}</textarea>
+                </div>
+                <button>Save Changes</button>
+                <a class="button cancel" href="/books/{{book.id}}">Cancel</a>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'authors/css/style.css' %}">
+    <title>Authors</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <form action='/authors/create' method='post'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Add an Author</legend>
+                <div>
+                    <label for="first_name">First Name:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_first' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='first_name'>
+                </div>
+                <div>
+                    <label for="last_name">Last Name:</label>
+                    {% if messages %}
+                    {% for msg in messages %}
+                    {% if msg.extra_tags == 'bad_last' %}
+                    <p class="error">{{msg}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <input type='text' name='last_name'>
+                </div>
+                <div>
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" cols="20" rows="5"></textarea>
+                </div>
+                <button>Add</button>
+                <a class="button cancel" href="/authors">Cancel</a>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>

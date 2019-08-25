@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'authors/css/style.css' %}">
+    <title>Author Details</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li class="nav-item">
+                    <h1><a href="/books">The Book Club</a></h1>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/{{request.session.user_id}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/authors">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h2>{{author.first_name}} {{author.last_name}}</h2>
+            <p class="tagline">{{author.notes}}</p>
+            <h4>Books by {{author.first_name}} {{author.last_name}}</h4>
+            <table class="book-table">
+                <thead>
+                    <th>Title</th>
+                    <th>Favorited By</th>
+                    <th>Average Rating</th>
+                </thead>
+                <tbody>
+                    {% for book in author.books.all %}
+                    <tr>
+                        <td>
+                            <a href="/books/{{book.id}}">{{book.title}}</a>
+                        </td>
+                        <td>
+                            {% if book.users_who_like.all|length < 1 %}
+                            None
+                            {% elif book.users_who_like.all|length == 1 %}
+                            {{book.users_who_like.all | length}} person
+                            {% else %}
+                            {{book.users_who_like.all | length}} people
+                            {% endif %}
+                        </td>
+                        <td>Not yet Rated</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
